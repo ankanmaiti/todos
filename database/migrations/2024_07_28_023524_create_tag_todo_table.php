@@ -14,10 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tag_todo', function (Blueprint $table) {
-            $table->id();
             $table->foreignIdFor(Tag::class);
             $table->foreignIdFor(Todo::class);
-            $table->timestamps();
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ class Todo extends Model
     use HasFactory;
     use Sluggable;
 
-    protected $fillable = ['title', 'body'];
+    protected $fillable = ['title', 'body', 'user_id'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -22,7 +23,7 @@ class Todo extends Model
     {
         return [
             'slug' => [
-                'source' => ['title', 'id'],
+                'source' => ['title'],
             ],
         ];
     }
@@ -34,7 +35,7 @@ class Todo extends Model
 
     public function attachTag(string $name): void
     {
-        $tag = Tag::firstOrCreate(['name' => strtolower($name)]);
+        $tag = Tag::firstOrCreate(['name' => strtolower($name), 'user_id' => Auth::user()->id]);
         $this->tags()->attach($tag);
     }
 
